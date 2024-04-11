@@ -1,11 +1,9 @@
 {
-  "name": "react-snappy-modal",
+  "name": "react-snappy-modal-sample",
   "version": "0.0.1",
-  "description": "리액트 모달",
-  "main": "index.js",
+  "description": "리액트 모달 샘플",
   "type": "module",
   "scripts": {
-    "prepare": "husky install",
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",

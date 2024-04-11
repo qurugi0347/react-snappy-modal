@@ -1,3 +1,3 @@
-export default function ReactSnappyModal() {
-  alert("snappy!");
-}
+import { SnappyModal } from "./SnappyModal.tsx";
+
+export default SnappyModal;
