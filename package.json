@@ -1,0 +1,27 @@
+{
+  "name": "react-snappy-modal",
+  "version": "0.0.1",
+  "description": "리액트 모달",
+  "main": "index.js",
+  "dependencies": {
+    "react": "^18.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qurugi0347/react-snappy-modal.git"
+  },
+  "keywords": [
+    "react",
+    "modal"
+  ],
+  "author": "",
+  "license": "MIT License",
+  "bugs": {
+    "url": "https://github.com/qurugi0347/react-snappy-modal/issues"
+  },
+  "homepage": "https://github.com/qurugi0347/react-snappy-modal#readme"
+}
