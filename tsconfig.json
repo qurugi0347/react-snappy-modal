@@ -5,24 +5,29 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules",
+        "options": {
+          "goToDefinition": true,
+        }
+      }
+    ],
 
     /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
+    "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
     "jsx": "react-jsx",
-
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "declaration":true,
+    "forceConsistentCasingInFileNames": true,
+    "downlevelIteration": true,
+    "outDir": "./dist"
   },
   "include": [
-    "sample",
     "src"
-  ],
-  "references": [{ "path": "./tsconfig.node.json"}]
+  ]
 }
