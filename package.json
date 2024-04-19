@@ -9,7 +9,7 @@
     "prepare": "husky install",
     "dev": "vite",
     "compile:sass": "sass src:src --no-source-map",
-    "build": "rm -rf dist && tsc --build && rsync -avm --include='*/' --include='*.css' --exclude='*' src/ dist/",
+    "build": "rm -rf dist && yarn compile:sass && tsc --build && rsync -avm --include='*/' --include='*.css' --exclude='*' src/ dist/",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
     "preview": "vite preview"
   },
