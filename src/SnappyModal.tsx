@@ -1,5 +1,5 @@
+import React from "react";
 import ReactDOM from "react-dom/client";
-import "./SnappyModal.scss";
 
 let currentComponent: ModalProgress | undefined;
 export class SnappyModal {
@@ -82,7 +82,7 @@ export class SnappyModal {
     const root = ReactDOM.createRoot(
       document.getElementById("snappy-modal-content") as HTMLElement,
     );
-    root.render(<>{component}</>);
+    root.render(<React.Fragment>{component}</React.Fragment>);
 
     return new Promise(resolve => {
       currentComponent = {
