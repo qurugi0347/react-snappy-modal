@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import "./SnappyModal.css";
 
 let currentComponent: ModalProgress | undefined;
 export class SnappyModal {
