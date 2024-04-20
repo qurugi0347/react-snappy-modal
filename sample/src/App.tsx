@@ -1,5 +1,5 @@
 import "./App.css";
-import SnappyModal from "../../src";
+import SnappyModal from "react-snappy-modal";
 
 function App() {
   const handleShowModal = () => {

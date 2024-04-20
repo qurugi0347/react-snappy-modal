@@ -1,3 +1,3 @@
-import { SnappyModal } from "./SnappyModal.tsx";
+import { SnappyModal } from "./SnappyModal";
 
 export default SnappyModal;

@@ -1,20 +1,21 @@
 {
   "name": "react-snappy-modal",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "리액트 모달",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
     "prepare": "husky install",
     "dev": "vite",
-    "build": "tsc && vite build",
+    "compile:sass": "sass src:src --no-source-map",
+    "build": "rm -rf dist && yarn compile:sass && tsc --build && rsync -avm --include='*/' --include='*.css' --exclude='*' src/ dist/",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
     "preview": "vite preview"
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "sass": "^1.74.1"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
@@ -29,8 +30,11 @@
     "eslint-plugin-react-refresh": "^0.4.6",
     "husky": "^9.0.11",
     "prettier": "^3.2.5",
+    "tsc": "^2.0.4",
     "typescript": "^5.2.2",
-    "vite": "^5.2.0"
+    "typescript-plugin-css-modules": "^5.1.0",
+    "vite": "^5.2.0",
+    "sass": "^1.74.1"
   },
   "repository": {
     "type": "git",
