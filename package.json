@@ -1,6 +1,6 @@
 {
   "name": "react-snappy-modal",
-  "version": "0.0.2",
+  "version": "0.0.2-fix.0",
   "description": "리액트 모달",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
