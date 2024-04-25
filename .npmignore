@@ -1,0 +1,10 @@
+*
+.*
+!package.json
+!LICENSE*
+!README*
+!CHANGELOG*
+!dist/**/*.js
+!dist/**/*.js.map
+!dist/**/*.d.ts
+!dist/**/*.css
