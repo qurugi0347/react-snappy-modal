@@ -52,6 +52,10 @@ export class SnappyModal {
     }
   }
 
+  static isShow() {
+    return !!currentComponent;
+  }
+
   static close(value?: any) {
     currentComponent?.resolve(value);
     currentComponent = undefined;
