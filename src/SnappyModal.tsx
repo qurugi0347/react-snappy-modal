@@ -13,10 +13,6 @@ export class SnappyModal {
     const pageY = window.scrollY;
     htmlElement.style.top = `-${pageY}px`;
     htmlElement.style.left = `-${pageX}px`;
-    htmlElement.style.position = "fixed";
-    htmlElement.style.overflow = "hidden";
-    htmlElement.style.height = "100vh";
-    htmlElement.style.width = "100vw";
     htmlElement.classList.add("not-scroll");
 
     const modalArea = document.createElement("div");
@@ -44,18 +40,10 @@ export class SnappyModal {
       document.body.removeChild(modalArea);
 
       const htmlElement = document.getElementsByTagName("html")[0];
-      const scrollY = Number(
-        htmlElement.style.top.replace("px", "").replace("-", ""),
-      );
-      const scrollX = Number(
-        htmlElement.style.left.replace("px", "").replace("-", ""),
-      );
+      const scrollY = Number(htmlElement.style.top.replace(/(px|-)/g, ""));
+      const scrollX = Number(htmlElement.style.left.replace(/(px|-)/g, ""));
       htmlElement.style.top = "";
-      htmlElement.style.left = ``;
-      htmlElement.style.position = "";
-      htmlElement.style.overflow = "";
-      htmlElement.style.height = "";
-      htmlElement.style.width = "";
+      htmlElement.style.left = "";
       htmlElement.classList.remove("not-scroll");
       window.scrollTo({
         left: scrollX,
