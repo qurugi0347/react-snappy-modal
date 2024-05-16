@@ -1,6 +1,6 @@
 {
   "name": "react-snappy-modal",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Flexible and easy-to-use modal library for React, supporting customizable dialogs with promise-based interactions.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,7 +9,9 @@
     "prepare": "husky install",
     "dev": "vite",
     "compile:sass": "sass src:src --no-source-map",
-    "build": "rm -rf dist && yarn compile:sass && tsup && rsync -avm --include='*/' --include='*.css' --exclude='*' src/ dist/",
+    "build:esm": "tsc -p tsconfig.esm.json && find ./dist -name '*.js' -exec sh -c 'mv \"$1\" \"${1%.js}.mjs\"' _ {} \\;",
+    "build:cjs": "tsc --p tsconfig.cjs.json",
+    "build": "rm -rf dist && yarn compile:sass && yarn build:esm && yarn build:cjs && rsync -avm --include='*/' --include='*.css' --exclude='*' src/ dist/",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
     "preview": "vite preview"
   },
