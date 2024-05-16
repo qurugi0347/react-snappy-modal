@@ -1,9 +1,10 @@
 {
   "name": "react-snappy-modal",
-  "version": "0.0.5",
+  "version": "0.0.8",
   "description": "Flexible and easy-to-use modal library for React, supporting customizable dialogs with promise-based interactions.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "module": "dist/index.mjs",
   "scripts": {
     "prepare": "husky install",
     "dev": "vite",
