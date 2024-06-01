@@ -1,0 +1,62 @@
+name: Deploy
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.12'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - uses: actions/cache@v3
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: |
+            ${{ steps.yarn-cache-dir-path.outputs.dir }}
+            node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+            ${{ runner.os }}-
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Update package.json version
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/v}  # 'v' 접두사 제거
+          npm version $TAG_NAME --no-git-tag-version
+          git config --global user.email "qurugi0347@gmail.com"
+          git config --global user.name "qurugi0347"
+
+      - name: Commit
+        run: |
+          git add package.json
+          echo $TAG_NAME
+          git commit -m "${GITHUB_REF#refs/tags/}"
+
+      - name: Build
+        run: yarn build
+
+      - name: Publish to npm
+        run: npm publish --tag latest
+
+      - name: Push changes
+        run: git push origin HEAD:main
