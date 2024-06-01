@@ -9,9 +9,7 @@
     "prepare": "husky install",
     "dev": "vite",
     "compile:sass": "sass src:src --no-source-map",
-    "build:esm": "tsc -p tsconfig.esm.json && find ./dist -name '*.js' -exec sh -c 'mv \"$1\" \"${1%.js}.mjs\"' _ {} \\;",
-    "build:cjs": "tsc --p tsconfig.cjs.json",
-    "build": "rm -rf dist && yarn compile:sass && yarn build:esm && yarn build:cjs && rsync -avm --include='*/' --include='*.css' --exclude='*' src/ dist/",
+    "build": "rm -rf dist && yarn compile:sass && tsup",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
     "preview": "vite preview"
   },

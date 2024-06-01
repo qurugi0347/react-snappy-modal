@@ -10,6 +10,6 @@ export default defineConfig({
   cssModules: true,
   dts: true,
   loader: {
-    ".css": "css", // CSS 파일 로더 설정
+    ".css": "copy", // CSS 파일 로더 설정
   },
 });

@@ -62,6 +62,12 @@ export class SnappyModal {
     this.removeModalArea();
   }
 
+  static throw(thrower?: any) {
+    currentComponent?.throw(thrower);
+    currentComponent = undefined;
+    this.removeModalArea();
+  }
+
   static show(
     component: React.ReactElement,
     options?: SnappyModalOptions,
@@ -77,12 +83,16 @@ export class SnappyModal {
     );
     root.render(<React.Fragment>{component}</React.Fragment>);
 
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       currentComponent = {
         component,
         resolve: (value: any) => {
           this.removeModalArea();
           resolve(value);
+        },
+        throw: (thrower: any) => {
+          this.removeModalArea();
+          reject(thrower);
         },
       };
     });
@@ -91,7 +101,8 @@ export class SnappyModal {
 
 interface ModalProgress {
   component: React.ReactElement;
-  resolve: (value: any) => void;
+  resolve: (value?: any) => void;
+  throw: (thrower?: any) => void;
 }
 
 const defaultDialogOptions: SnappyModalOptions = {
