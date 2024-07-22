@@ -17,7 +17,22 @@ export class SnappyModal {
 
     const modalArea = document.createElement("div");
     modalArea.id = "snappy-modal-area";
-    modalArea.classList.add("backdrop");
+    // options 적용
+    if (options.backdrop) {
+      modalArea.classList.add("backdrop");
+      if (typeof options.backdrop === "string") {
+        modalArea.style.setProperty(
+          "--snappy-modal-backdrop",
+          options.backdrop,
+        );
+      }
+    }
+    if (options.position) {
+      modalArea.style.setProperty(
+        "--snappy-modal-content-position",
+        options.position,
+      );
+    }
     if (options?.allowOutsideClick) {
       modalArea.onclick = e => {
         e.stopPropagation();
@@ -108,9 +123,24 @@ interface ModalProgress {
 const defaultDialogOptions: SnappyModalOptions = {
   allowOutsideClick: true,
   allowScroll: false,
+  backdrop: true,
+  position: "center",
 };
+
+type SnappyModalPosition =
+  | "top-left"
+  | "top-center"
+  | "top-right"
+  | "center-left"
+  | "center"
+  | "center-right"
+  | "bottom-left"
+  | "bottom-center"
+  | "bottom-right";
 
 export type SnappyModalOptions = {
   allowOutsideClick?: boolean;
   allowScroll?: boolean;
+  backdrop?: boolean | string;
+  position?: SnappyModalPosition;
 };
