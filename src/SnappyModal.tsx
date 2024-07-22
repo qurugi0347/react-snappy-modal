@@ -18,27 +18,7 @@ export class SnappyModal {
     const modalArea = document.createElement("div");
     modalArea.id = "snappy-modal-area";
     // options 적용
-    if (options.backdrop) {
-      modalArea.classList.add("backdrop");
-      if (typeof options.backdrop === "string") {
-        modalArea.style.setProperty(
-          "--snappy-modal-backdrop",
-          options.backdrop,
-        );
-      }
-    }
-    if (options.position) {
-      modalArea.style.setProperty(
-        "--snappy-modal-content-position",
-        options.position,
-      );
-    }
-    if (options?.allowOutsideClick) {
-      modalArea.onclick = e => {
-        e.stopPropagation();
-        this.close();
-      };
-    }
+    assignModalOptions(modalArea, options);
     document.body.appendChild(modalArea);
 
     const modalContent = document.createElement("div");
@@ -143,4 +123,26 @@ export type SnappyModalOptions = {
   allowScroll?: boolean;
   backdrop?: boolean | string;
   position?: SnappyModalPosition;
+  zIndex?: number;
 };
+
+function assignModalOptions(dom: HTMLDivElement, options: SnappyModalOptions) {
+  if (options.backdrop) {
+    dom.classList.add("backdrop");
+    if (typeof options.backdrop === "string") {
+      dom.style.setProperty("--snappy-modal-backdrop", options.backdrop);
+    }
+  }
+  if (options.position) {
+    dom.style.setProperty("--snappy-modal-content-position", options.position);
+  }
+  if (options?.allowOutsideClick) {
+    dom.onclick = e => {
+      e.stopPropagation();
+      this.close();
+    };
+  }
+  if (options.zIndex !== undefined) {
+    dom.style.setProperty("--snappy-modal-z-index", options.zIndex.toString());
+  }
+}
