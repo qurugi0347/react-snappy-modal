@@ -54,13 +54,13 @@ export class SnappyModal {
   static close(value?: any) {
     currentComponent?.resolve(value);
     currentComponent = undefined;
-    this.removeModalArea();
+    SnappyModal?.removeModalArea();
   }
 
   static throw(thrower?: any) {
     currentComponent?.throw(thrower);
     currentComponent = undefined;
-    this.removeModalArea();
+    SnappyModal?.removeModalArea();
   }
 
   static show(
@@ -82,11 +82,11 @@ export class SnappyModal {
       currentComponent = {
         component,
         resolve: (value: any) => {
-          this.removeModalArea();
+          SnappyModal?.removeModalArea();
           resolve(value);
         },
         throw: (thrower: any) => {
-          this.removeModalArea();
+          SnappyModal?.removeModalArea();
           reject(thrower);
         },
       };
