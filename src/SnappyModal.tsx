@@ -139,7 +139,7 @@ function assignModalOptions(dom: HTMLDivElement, options: SnappyModalOptions) {
   if (options?.allowOutsideClick) {
     dom.onclick = e => {
       e.stopPropagation();
-      this.close();
+      SnappyModal.close();
     };
   }
   if (options.zIndex !== undefined) {
