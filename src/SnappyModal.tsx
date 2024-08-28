@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./SnappyModal.css";
+import { SnappyModalExternalStore } from "./context/SnappyModalExternalStorage";
 
 let currentComponent: ModalProgress | undefined;
 export class SnappyModal {
@@ -55,12 +56,14 @@ export class SnappyModal {
     currentComponent?.resolve(value);
     currentComponent = undefined;
     SnappyModal?.removeModalArea();
+    SnappyModalExternalStore.emitChange();
   }
 
   static throw(thrower?: any) {
     currentComponent?.throw(thrower);
     currentComponent = undefined;
     SnappyModal?.removeModalArea();
+    SnappyModalExternalStore.emitChange();
   }
 
   static show(
@@ -77,6 +80,8 @@ export class SnappyModal {
       document.getElementById("snappy-modal-content") as HTMLElement,
     );
     root.render(<React.Fragment>{component}</React.Fragment>);
+
+    SnappyModalExternalStore.emitChange();
 
     return new Promise((resolve, reject) => {
       currentComponent = {
