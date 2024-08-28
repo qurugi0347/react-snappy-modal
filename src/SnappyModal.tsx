@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./SnappyModal.css";
-import { SnappyModalExternalStore } from "./context/SnappyModalExternalStorage";
+import { SnappyModalExternalStore } from "./context/useSnappyModalState";
 
 let currentComponent: ModalProgress | undefined;
 export class SnappyModal {
@@ -81,8 +81,6 @@ export class SnappyModal {
     );
     root.render(<React.Fragment>{component}</React.Fragment>);
 
-    SnappyModalExternalStore.emitChange();
-
     return new Promise((resolve, reject) => {
       currentComponent = {
         component,
@@ -95,6 +93,7 @@ export class SnappyModal {
           reject(thrower);
         },
       };
+      SnappyModalExternalStore.emitChange();
     });
   }
 }

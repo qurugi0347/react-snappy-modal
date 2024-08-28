@@ -2,6 +2,9 @@ import { SnappyModal } from "../SnappyModal";
 import { useSyncExternalStore } from "react";
 
 let snappyModalListeners = [];
+let snappyModalState = {
+  isShow: false,
+};
 
 function emitChange() {
   for (const listener of snappyModalListeners) {
@@ -10,7 +13,12 @@ function emitChange() {
 }
 
 export const SnappyModalExternalStore = {
-  emitChange,
+  emitChange: () => {
+    snappyModalState = {
+      isShow: SnappyModal.isShow(),
+    };
+    emitChange();
+  },
   subscribe(listener: () => unknown) {
     snappyModalListeners = [...snappyModalListeners, listener];
     return () => {
@@ -18,9 +26,7 @@ export const SnappyModalExternalStore = {
     };
   },
   getSnappyModalState() {
-    return {
-      isShow: SnappyModal.isShow(),
-    };
+    return snappyModalState;
   },
 };
 

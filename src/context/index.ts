@@ -1,1 +1,1 @@
-export { useSnappyModalState } from "./SnappyModalExternalStorage";
+export { useSnappyModalState } from "./useSnappyModalState";
