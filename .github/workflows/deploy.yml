@@ -57,9 +57,8 @@ jobs:
       - name: Build
         run: yarn build
 
-      # 테스트용 임시 주석
-      #- name: Publish to npm
-      #  run: npm publish --tag latest
+      - name: Publish to npm
+        run: npm publish --tag latest
 
       - name: Push changes
         run: |
