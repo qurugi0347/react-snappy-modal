@@ -11,6 +11,8 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -60,7 +62,5 @@ jobs:
       #  run: npm publish --tag latest
 
       - name: Push changes
-        env:
-          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
         run: |
-          git push https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git HEAD:main
+          git push origin HEAD:main
