@@ -25,13 +25,24 @@ pnpm add react-snappy-modal
 
 ## Usage
 ```jsx
+// main
+import { SnappyModalProvider } from "react-snappy-modal";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <SnappyModalProvider>
+      <App />
+    </SnappyModalProvider>
+  </React.StrictMode>,
+);
+
 // app
 import React from 'react';
 import { SnappyModal } from 'react-snappy-modal';
 
 function App() {
   const showModal = () => {
-    SnappyModal.show(<YourComponent />, {
+    SnappyModal.show(<YourModalComponent />, {
       allowOutsideClick: true
     }).then((result) => {
       console.log('모달 닫힘', result);
@@ -46,11 +57,11 @@ function App() {
 }
 
 export default App;
-// YourComponent
+// YourModalComponent
 import React from 'react';
 import SnappyModal from 'react-snappy-modal';
 
-function YourComponent() {
+function YourModalComponent() {
   return (
     <div>
       <h1>모달 내용</h1>
@@ -59,7 +70,7 @@ function YourComponent() {
   );
 }
 
-export default YourComponent;
+export default YourModalComponent;
 ```
 
 자세한 내용은 sample 프로젝트를 참고하세요.
