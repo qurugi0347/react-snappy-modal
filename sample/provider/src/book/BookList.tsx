@@ -7,10 +7,7 @@ import { BookDetail } from "./BookDetail.tsx";
 export function BookList() {
   const { bookList } = useBookContext();
   const onClickBook = (id: number) => () => {
-    SnappyModal.show(<BookDetail id={id} />, {
-      position: "bottom-center",
-      zIndex: 1123,
-    });
+    SnappyModal.show(<BookDetail id={id} />);
   };
   return (
     <div>
