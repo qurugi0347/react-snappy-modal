@@ -1,8 +1,11 @@
-import { SnappyModal } from "../SnappyModal";
+import { ModalProgress, SnappyModal } from "../SnappyModal";
 import { useSyncExternalStore } from "react";
 
 let snappyModalListeners = [];
-let snappyModalState = {
+let snappyModalState: {
+  isShow: boolean;
+  modalProgress?: ModalProgress;
+} = {
   isShow: false,
 };
 
@@ -16,6 +19,7 @@ export const SnappyModalExternalStore = {
   emitChange: () => {
     snappyModalState = {
       isShow: SnappyModal.isShow(),
+      modalProgress: SnappyModal.getModalProcess(),
     };
     emitChange();
   },
