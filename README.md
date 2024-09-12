@@ -38,7 +38,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 
 // app
 import React from 'react';
-import { SnappyModal } from 'react-snappy-modal';
+import SnappyModal from 'react-snappy-modal';
 
 function App() {
   const showModal = () => {
