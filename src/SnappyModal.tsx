@@ -3,26 +3,38 @@ import ReactDOM from "react-dom/client";
 import "./SnappyModal.css";
 import { SnappyModalExternalStore } from "./context/useSnappyModalState";
 
-let currentComponent: ModalProgress | undefined;
+const currentComponents: ModalProgress[] = [];
 export class SnappyModal {
   static isShow() {
-    return !!currentComponent;
+    return currentComponents.length > 0;
+  }
+
+  static getCurrentComponent(layer: number) {
+    return currentComponents.find(c => c.options.layer === layer);
+  }
+
+  static removeModalProcess(layer: number) {
+    const index = currentComponents.findIndex(c => c.options.layer === layer);
+    if (index === -1) return;
+    currentComponents.splice(index, 1);
+    SnappyModalExternalStore.emitChange();
   }
 
   static getModalProcess() {
-    return currentComponent;
+    return currentComponents;
   }
 
-  static close(value?: any) {
+  static close(value?: any, layer = 0) {
+    const currentComponent = this.getCurrentComponent(layer);
     currentComponent?.resolve(value);
-    currentComponent = undefined;
-    SnappyModalExternalStore.emitChange();
+    this.removeModalProcess(layer);
   }
 
-  static throw(thrower?: any) {
+  static throw(thrower?: any, layer = 0) {
+    const currentComponent = this.getCurrentComponent(layer);
     currentComponent?.throw(thrower);
-    currentComponent = undefined;
-    SnappyModalExternalStore.emitChange();
+    this.removeModalProcess(layer);
+    currentComponent?.throw(thrower);
   }
 
   static show(
@@ -35,7 +47,7 @@ export class SnappyModal {
     };
 
     return new Promise((resolve, reject) => {
-      currentComponent = {
+      currentComponents.push({
         component: () => <React.Fragment>{component}</React.Fragment>,
         options: dialogOptions,
         resolve: (value: any) => {
@@ -46,7 +58,8 @@ export class SnappyModal {
           reject(thrower);
           SnappyModalExternalStore.emitChange();
         },
-      };
+      });
+      currentComponents.sort((a, b) => a.options.layer - b.options.layer);
       SnappyModalExternalStore.emitChange();
     });
   }
@@ -64,6 +77,7 @@ const defaultDialogOptions: SnappyModalOptions = {
   allowScroll: false,
   backdrop: true,
   position: "center",
+  layer: 0,
 };
 
 type SnappyModalPosition =
@@ -83,4 +97,5 @@ export type SnappyModalOptions = {
   backdrop?: boolean | string;
   position?: SnappyModalPosition;
   zIndex?: number;
+  layer?: number;
 };
