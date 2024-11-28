@@ -1,79 +1,136 @@
 # React Snappy Modal
 
-React Snappy Modal은 React 애플리케이션을 위한 커스터마이징이 가능한 모달/다이얼로그 라이브러리
+SnappyModal is a lightweight, flexible React modal library that provides a simple and intuitive way to manage modal dialogs in your React applications.
 
-React 컴포넌트를 모달 내부에 쉽게 렌더링하고 Promise 기반 상호작용을 제공합니다.
+[한글 문서](./README.ko.md)
 
 ## Features
 
-- 모달 내부에 어떤 React 컴포넌트도 렌더링 가능.
-- 모달 밖 클릭 시 모달을 닫는 등의 동작을 `allowOutsideClick` 같은 옵션으로 제어 가능.
-- 모달이 닫힌 후 스크롤 위치 복원.
-- 모달의 열림/닫힘 상태를 state로 관리하지 않아도 됨
-- 다중 Layer 모달 지원
+- 🚀 Promise-based API
+- 🎯 Multiple modal layers support
+- 🎨 Customizable positioning
+- 🔒 Scroll lock management
+- 🎭 Backdrop customization
+- ⚡ TypeScript support
 
 ## Installation
 
 ```bash
-npm install react-snappy-modal
-```
-```bash
-yarn add react-snappy-modal
-```
-```bash
-pnpm add react-snappy-modal
+npm install snappy-modal
+# or
+yarn add snappy-modal
 ```
 
-## Usage
+## Basic Usage
+
+1. First, wrap your application with `SnappyModalProvider`:
+
 ```jsx
-// main
-import { SnappyModalProvider } from "react-snappy-modal";
-
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <SnappyModalProvider>
-      <App />
-    </SnappyModalProvider>
-  </React.StrictMode>,
-);
-
-// app
-import React from 'react';
-import SnappyModal from 'react-snappy-modal';
+import { SnappyModalProvider } from 'snappy-modal';
 
 function App() {
-  const showModal = () => {
-    SnappyModal.show(<YourModalComponent />, {
-      allowOutsideClick: true
-    }).then((result) => {
-      console.log('모달 닫힘', result);
-    });
-  };
-
   return (
-    <div>
-      <button onClick={showModal}>모달 열기</button>
-    </div>
+    <SnappyModalProvider>
+      <YourApp />
+    </SnappyModalProvider>
   );
 }
-
-export default App;
-// YourModalComponent
-import React from 'react';
-import SnappyModal from 'react-snappy-modal';
-
-function YourModalComponent() {
-  return (
-    <div>
-      <h1>모달 내용</h1>
-      <button onClick={SnappyModal.close("some result")}>닫기</button>
-    </div>
-  );
-}
-
-export default YourModalComponent;
 ```
 
-자세한 내용은 sample 프로젝트를 참고하세요.
+2. Show a modal using `SnappyModal.show()`:
 
+```jsx
+import SnappyModal from 'snappy-modal';
 
+function YourComponent() {
+  const handleClick = async () => {
+    const result = await SnappyModal.show(
+      <div>
+        <h2>Hello World!</h2>
+        <button onClick={() => SnappyModal.close('success')}>Close</button>
+      </div>
+    );
+    console.log(result); // 'success'
+  };
+
+  return <button onClick={handleClick}>Open Modal</button>;
+}
+```
+
+## API Reference
+
+### SnappyModal.show(component, options?)
+
+Shows a modal and returns a Promise that resolves when the modal is closed.
+
+```typescript
+interface SnappyModalOptions {
+  allowOutsideClick?: boolean;  // Enable closing by clicking outside (default: true)
+  allowScroll?: boolean;        // Allow background scrolling (default: false)
+  backdrop?: boolean | string;  // Show backdrop or custom backdrop color (default: true)
+  position?: SnappyModalPosition; // Modal position (default: "center")
+  zIndex?: number;             // Custom z-index
+  layer?: number;              // Modal layer for stacking (default: 0)
+}
+
+type SnappyModalPosition =
+  | "top-left"
+  | "top-center"
+  | "top-right"
+  | "center-left"
+  | "center"
+  | "center-right"
+  | "bottom-left"
+  | "bottom-center"
+  | "bottom-right";
+```
+
+### SnappyModal.close(value?, layer?)
+
+Closes the modal and resolves the Promise with the provided value.
+
+```typescript
+SnappyModal.close('success', 0); // Closes layer 0 modal with 'success' value
+```
+
+### SnappyModal.throw(error?, layer?)
+
+Closes the modal and rejects the Promise with the provided error.
+
+```typescript
+SnappyModal.throw(new Error('Cancelled'), 0);
+```
+
+## Examples
+
+### Custom Positioning
+
+```jsx
+SnappyModal.show(<YourComponent />, {
+  position: 'top-right',
+  backdrop: 'rgba(0, 0, 0, 0.7)'
+});
+```
+
+### Multiple Layers
+
+```jsx
+// Show first modal
+const showNestedModal = async () => {
+  await SnappyModal.show(<FirstModal />, { layer: 0 });
+  // Show second modal on top
+  await SnappyModal.show(<SecondModal />, { layer: 1 });
+};
+```
+
+### Custom Backdrop
+
+```jsx
+SnappyModal.show(<YourComponent />, {
+  backdrop: 'rgba(255, 0, 0, 0.5)' // Red semi-transparent backdrop
+});
+```
+
+## Examples
+
+For detailed usage examples, please refer to the examples in the `sample` directory.
