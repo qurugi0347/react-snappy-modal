@@ -1,4 +1,4 @@
-#snappy-modal-area {
+.snappy-modal-area {
   position: fixed;
   left: 0;
   top: 0;
@@ -18,7 +18,7 @@
   }
 }
 
-#snappy-modal-content {
+.snappy-modal-content {
   position: relative;
   z-index: 2;
   grid-area: var(--snappy-modal-content-position, center);

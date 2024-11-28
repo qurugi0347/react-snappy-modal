@@ -4,9 +4,10 @@ import { useSyncExternalStore } from "react";
 let snappyModalListeners = [];
 let snappyModalState: {
   isShow: boolean;
-  modalProgress?: ModalProgress;
+  modalProgress: ModalProgress[];
 } = {
   isShow: false,
+  modalProgress: [],
 };
 
 function emitChange() {
@@ -19,7 +20,7 @@ export const SnappyModalExternalStore = {
   emitChange: () => {
     snappyModalState = {
       isShow: SnappyModal.isShow(),
-      modalProgress: SnappyModal.getModalProcess(),
+      modalProgress: [...SnappyModal.getModalProcess()],
     };
     emitChange();
   },

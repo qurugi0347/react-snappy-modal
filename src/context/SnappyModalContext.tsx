@@ -29,19 +29,18 @@ export const SnappyModalProvider = ({ children }) => {
   }, [snappyModal.isShow]);
 
   const modalRendered = useMemo(() => {
-    if (!snappyModal.isShow) return null;
     const { modalProgress } = snappyModal;
-    return (
-      <div
-        id={"snappy-modal-area"}
-        {...assignModalOptions(modalProgress.options)}
-      >
-        <div id={"snappy-modal-content"}>
-          <modalProgress.component />
+    return modalProgress.map(modal => (
+      <div key={modal.options.layer} {...assignModalOptions(modal.options)}>
+        <div
+          className={`snappy-modal-content`}
+          onClick={e => e.stopPropagation()}
+        >
+          <modal.component />
         </div>
       </div>
-    );
-  }, [snappyModal]);
+    ));
+  }, [snappyModal.modalProgress]);
 
   return (
     <SnappyModalContext.Provider value={{}}>
@@ -53,7 +52,7 @@ export const SnappyModalProvider = ({ children }) => {
 
 export function assignModalOptions(options: SnappyModalOptions) {
   const domOptions = {
-    classList: [],
+    classList: ["snappy-modal-area"],
     styleProperty: {},
     onClick: e => {},
   };
@@ -70,7 +69,8 @@ export function assignModalOptions(options: SnappyModalOptions) {
   if (options?.allowOutsideClick) {
     domOptions.onClick = e => {
       e.stopPropagation();
-      SnappyModal.close();
+      e.preventDefault();
+      SnappyModal.close(undefined, options.layer);
     };
   }
   if (options.zIndex !== undefined) {
