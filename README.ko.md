@@ -14,9 +14,9 @@ SnappyModal은 React 애플리케이션에서 모달 다이얼로그를 쉽고 �
 ## 설치
 
 ```bash
-npm install snappy-modal
+npm install react-snappy-modal
 # 또는
-yarn add snappy-modal
+yarn add react-snappy-modal
 ```
 
 ## 기본 사용법
@@ -24,7 +24,7 @@ yarn add snappy-modal
 1. 먼저 애플리케이션을 `SnappyModalProvider`로 감싸주세요
 
 ```jsx
-import { SnappyModalProvider } from 'snappy-modal';
+import { SnappyModalProvider } from 'react-snappy-modal';
 
 function App() {
   return (
@@ -38,7 +38,7 @@ function App() {
 2. `SnappyModal.show()`를 사용하여 모달을 표시하세요
 
 ```jsx
-import SnappyModal from 'snappy-modal';
+import SnappyModal from 'react-snappy-modal';
 
 function YourComponent() {
   const handleClick = async () => {

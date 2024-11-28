@@ -16,9 +16,9 @@ SnappyModal is a lightweight, flexible React modal library that provides a simpl
 ## Installation
 
 ```bash
-npm install snappy-modal
+npm install react-snappy-modal
 # or
-yarn add snappy-modal
+yarn add react-snappy-modal
 ```
 
 ## Basic Usage
@@ -26,7 +26,7 @@ yarn add snappy-modal
 1. First, wrap your application with `SnappyModalProvider`:
 
 ```jsx
-import { SnappyModalProvider } from 'snappy-modal';
+import { SnappyModalProvider } from 'react-snappy-modal';
 
 function App() {
   return (
@@ -40,7 +40,7 @@ function App() {
 2. Show a modal using `SnappyModal.show()`:
 
 ```jsx
-import SnappyModal from 'snappy-modal';
+import SnappyModal from 'react-snappy-modal';
 
 function YourComponent() {
   const handleClick = async () => {
