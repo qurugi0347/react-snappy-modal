@@ -2,6 +2,8 @@
 
 SnappyModal은 React 애플리케이션에서 모달 다이얼로그를 쉽고 직관적으로 관리할 수 있는 경량 React 라이브러리입니다.
 
+**웹사이트**: [https://react.snappy-modal.com/](https://react.snappy-modal.com/)
+
 ## 주요 기능
 
 - 🚀 Promise 기반 API
