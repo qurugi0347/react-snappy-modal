@@ -50,7 +50,7 @@
   "bugs": {
     "url": "https://github.com/qurugi0347/react-snappy-modal/issues"
   },
-  "homepage": "https://github.com/qurugi0347/react-snappy-modal#readme",
+  "homepage": "https://react.snappy-modal.com/",
   "lint-staged": {
     "./**/*.ts*": [
       "prettier --write",

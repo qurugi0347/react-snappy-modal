@@ -4,6 +4,8 @@ SnappyModal is a lightweight, flexible React modal library that provides a simpl
 
 [한글 문서](./README.ko.md)
 
+**Website**: [https://react.snappy-modal.com/](https://react.snappy-modal.com/)
+
 ## Features
 
 - 🚀 Promise-based API
