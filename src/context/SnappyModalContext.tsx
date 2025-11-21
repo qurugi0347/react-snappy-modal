@@ -33,7 +33,8 @@ export const SnappyModalProvider = ({ children }) => {
     return modalProgress.map(modal => (
       <div key={modal.options.layer} {...assignModalOptions(modal.options)}>
         <div
-          className={`snappy-modal-content`}
+          className={`snappy-modal-content ${modal.options.className ? `${modal.options.className}` : ""}`}
+          style={modal.options.style}
           onClick={e => e.stopPropagation()}
         >
           <modal.component />
