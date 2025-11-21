@@ -22,7 +22,7 @@
   position: relative;
   z-index: 2;
   grid-area: var(--snappy-modal-content-position, center);
-  align-self: center;
+  align-self: var(--snappy-modal-align-self, center);
   justify-self: center;
   display: flex;
 }
