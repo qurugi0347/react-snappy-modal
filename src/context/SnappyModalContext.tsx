@@ -33,7 +33,8 @@ export const SnappyModalProvider = ({ children }) => {
     return modalProgress.map(modal => (
       <div key={modal.options.layer} {...assignModalOptions(modal.options)}>
         <div
-          className={`snappy-modal-content`}
+          className={`snappy-modal-content ${modal.options.className ? `${modal.options.className}` : ""}`}
+          style={modal.options.style}
           onClick={e => e.stopPropagation()}
         >
           <modal.component />
@@ -65,6 +66,12 @@ export function assignModalOptions(options: SnappyModalOptions) {
   if (options.position) {
     domOptions.styleProperty["--snappy-modal-content-position"] =
       options.position;
+
+    if (options.position.startsWith("top-")) {
+      domOptions.styleProperty["--snappy-modal-align-self"] = "start";
+    } else if (options.position.startsWith("bottom-")) {
+      domOptions.styleProperty["--snappy-modal-align-self"] = "end";
+    }
   }
   if (options?.allowOutsideClick) {
     domOptions.onClick = e => {

@@ -98,4 +98,6 @@ export type SnappyModalOptions = {
   position?: SnappyModalPosition;
   zIndex?: number;
   layer?: number;
+  className?: string;
+  style?: React.CSSProperties;
 };
