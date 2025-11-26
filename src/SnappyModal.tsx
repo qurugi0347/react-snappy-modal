@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./SnappyModal.css";
 import { SnappyModalExternalStore } from "./context/useSnappyModalState";
+import { CurrentModalProvider } from "./context/CurrentModalContext";
 
 const currentComponents: ModalProgress[] = [];
 export class SnappyModal {
@@ -48,7 +49,15 @@ export class SnappyModal {
 
     return new Promise((resolve, reject) => {
       currentComponents.push({
-        component: () => <React.Fragment>{component}</React.Fragment>,
+        component: ({ resolveFunc, rejectFunc, layer }) => (
+          <CurrentModalProvider
+            resolve={resolveFunc}
+            reject={rejectFunc}
+            layer={layer}
+          >
+            {component}
+          </CurrentModalProvider>
+        ),
         options: dialogOptions,
         resolve: (value: any) => {
           resolve(value);

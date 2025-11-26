@@ -37,7 +37,11 @@ export const SnappyModalProvider = ({ children }) => {
           style={modal.options.style}
           onClick={e => e.stopPropagation()}
         >
-          <modal.component />
+          <modal.component
+            resolveFunc={modal.resolve}
+            rejectFunc={modal.throw}
+            layer={modal.options.layer}
+          />
         </div>
       </div>
     ));
