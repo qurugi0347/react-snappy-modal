@@ -51,13 +51,18 @@ export class SnappyModal {
     return currentComponents.find(c => c.options.layer === Number(layerOrId));
   }
 
-  static removeModalProcess(layerOrId: number | string) {
+  static removeModalProcess(
+    layerOrId: number | string,
+    skipEmitChange = false,
+  ) {
     const index = isModalId(layerOrId)
       ? currentComponents.findIndex(c => c.modalId === layerOrId)
       : currentComponents.findIndex(c => c.options.layer === Number(layerOrId));
     if (index === -1) return;
     currentComponents.splice(index, 1);
-    SnappyModalExternalStore.emitChange();
+    if (!skipEmitChange) {
+      SnappyModalExternalStore.emitChange();
+    }
   }
 
   static getModalProcess() {
@@ -66,14 +71,18 @@ export class SnappyModal {
 
   static close(value?: any, layerOrId: number | string = 0) {
     const currentComponent = this.getCurrentComponent(layerOrId);
-    currentComponent?.resolve(value);
-    this.removeModalProcess(layerOrId);
+    if (!currentComponent) return;
+
+    this.removeModalProcess(layerOrId, true);
+    currentComponent.resolve(value);
   }
 
   static throw(thrower?: any, layerOrId: number | string = 0) {
     const currentComponent = this.getCurrentComponent(layerOrId);
-    currentComponent?.throw(thrower);
-    this.removeModalProcess(layerOrId);
+    if (!currentComponent) return;
+
+    this.removeModalProcess(layerOrId, true);
+    currentComponent.throw(thrower);
   }
 
   static show(
