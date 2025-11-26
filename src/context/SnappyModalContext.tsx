@@ -31,7 +31,7 @@ export const SnappyModalProvider = ({ children }) => {
   const modalRendered = useMemo(() => {
     const { modalProgress } = snappyModal;
     return modalProgress.map(modal => (
-      <div key={modal.options.layer} {...assignModalOptions(modal.options)}>
+      <div key={modal.modalId} {...assignModalOptions(modal.options)}>
         <div
           className={`snappy-modal-content ${modal.options.className ? `${modal.options.className}` : ""}`}
           style={modal.options.style}
@@ -41,6 +41,7 @@ export const SnappyModalProvider = ({ children }) => {
             resolveFunc={modal.resolve}
             rejectFunc={modal.throw}
             layer={modal.options.layer}
+            modalId={modal.modalId}
           />
         </div>
       </div>
