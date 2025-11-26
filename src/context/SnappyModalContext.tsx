@@ -31,7 +31,10 @@ export const SnappyModalProvider = ({ children }) => {
   const modalRendered = useMemo(() => {
     const { modalProgress } = snappyModal;
     return modalProgress.map(modal => (
-      <div key={modal.modalId} {...assignModalOptions(modal.options)}>
+      <div
+        key={modal.modalId}
+        {...assignModalOptions(modal.options, modal.modalId)}
+      >
         <div
           className={`snappy-modal-content ${modal.options.className ? `${modal.options.className}` : ""}`}
           style={modal.options.style}
@@ -56,7 +59,10 @@ export const SnappyModalProvider = ({ children }) => {
   );
 };
 
-export function assignModalOptions(options: SnappyModalOptions) {
+export function assignModalOptions(
+  options: SnappyModalOptions,
+  modalId: string,
+) {
   const domOptions = {
     classList: ["snappy-modal-area"],
     styleProperty: {},
@@ -82,7 +88,7 @@ export function assignModalOptions(options: SnappyModalOptions) {
     domOptions.onClick = e => {
       e.stopPropagation();
       e.preventDefault();
-      SnappyModal.close(undefined, options.layer);
+      SnappyModal.close(undefined, modalId);
     };
   }
   if (options.zIndex !== undefined) {
