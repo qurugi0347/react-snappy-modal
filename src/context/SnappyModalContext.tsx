@@ -7,8 +7,15 @@ const SnappyModalContext = createContext({});
 export const SnappyModalProvider = ({ children }) => {
   const snappyModal = useSnappyModalState();
 
+  const shouldBlockScroll = useMemo(() => {
+    if (!snappyModal.isShow) return false;
+    return snappyModal.modalProgress.some(
+      modal => modal.options.allowScroll === false,
+    );
+  }, [snappyModal.isShow, snappyModal.modalProgress]);
+
   useEffect(() => {
-    if (!snappyModal.isShow) return;
+    if (!shouldBlockScroll) return;
 
     const htmlElement = document.getElementsByTagName("html")[0];
     const pageX = window.scrollX;
@@ -26,7 +33,7 @@ export const SnappyModalProvider = ({ children }) => {
         top: pageY,
       });
     };
-  }, [snappyModal.isShow]);
+  }, [shouldBlockScroll]);
 
   const modalRendered = useMemo(() => {
     const { modalProgress } = snappyModal;
