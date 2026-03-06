@@ -156,7 +156,6 @@ export type SnappyModalOptions = {
   allowScroll?: boolean;
   backdrop?: boolean | string;
   position?: SnappyModalPosition;
-  zIndex?: number;
   layer?: number;
   className?: string;
   style?: React.CSSProperties;
