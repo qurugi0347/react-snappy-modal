@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
 import "./SnappyModal.css";
 import { SnappyModalExternalStore } from "./context/useSnappyModalState";
 import { CurrentModalProvider } from "./context/CurrentModalContext";

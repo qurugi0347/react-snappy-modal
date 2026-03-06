@@ -1,7 +1,12 @@
-.snappy-modal-area {
-  position: fixed;
-  left: 0;
-  top: 0;
+dialog.snappy-modal-area {
+  border: none;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  max-width: none;
+  max-height: none;
+  outline: none;
+
   width: 100vw;
   height: 100vh;
   display: grid;
@@ -11,8 +16,12 @@
         "bottom-left bottom-center bottom-right";
   grid-template-rows: minmax(min-content, auto) minmax(min-content, auto) minmax(min-content, auto);
   grid-template-columns: auto minmax(0, 1fr) auto;
-  z-index: var(--snappy-modal-z-index, 1000);
-  &.backdrop {
+
+  &::backdrop {
+    background-color: transparent;
+  }
+
+  &.backdrop::backdrop {
     transition: background-color .3s;
     background-color: var(--snappy-modal-backdrop-color, rgba(0,0,0,.5));
   }

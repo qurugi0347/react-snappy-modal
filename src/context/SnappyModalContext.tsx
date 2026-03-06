@@ -1,6 +1,6 @@
-import { createContext, useEffect, useMemo } from "react";
+import { createContext, useEffect, useMemo, useRef } from "react";
 import { useSnappyModalState } from "./useSnappyModalState";
-import { SnappyModal, SnappyModalOptions } from "../SnappyModal";
+import { ModalProgress, SnappyModal, SnappyModalOptions } from "../SnappyModal";
 
 const SnappyModalContext = createContext({});
 
@@ -38,23 +38,7 @@ export const SnappyModalProvider = ({ children }) => {
   const modalRendered = useMemo(() => {
     const { modalProgress } = snappyModal;
     return modalProgress.map(modal => (
-      <div
-        key={modal.modalId}
-        {...assignModalOptions(modal.options, modal.modalId)}
-      >
-        <div
-          className={`snappy-modal-content ${modal.options.className ? `${modal.options.className}` : ""}`}
-          style={modal.options.style}
-          onClick={e => e.stopPropagation()}
-        >
-          <modal.component
-            resolveFunc={modal.resolve}
-            rejectFunc={modal.throw}
-            layer={modal.options.layer}
-            modalId={modal.modalId}
-          />
-        </div>
-      </div>
+      <ModalDialog key={modal.modalId} modal={modal} />
     ));
   }, [snappyModal.modalProgress]);
 
@@ -66,45 +50,82 @@ export const SnappyModalProvider = ({ children }) => {
   );
 };
 
-export function assignModalOptions(
-  options: SnappyModalOptions,
-  modalId: string,
-) {
-  const domOptions = {
-    classList: ["snappy-modal-area"],
-    styleProperty: {},
-    onClick: e => {},
-  };
+export function assignModalOptions(options: SnappyModalOptions) {
+  const classList = ["snappy-modal-area"];
+  const styleProperty: Record<string, string> = {};
+
   if (options.backdrop) {
-    domOptions.classList.push("backdrop");
+    classList.push("backdrop");
     if (typeof options.backdrop === "string") {
-      domOptions.styleProperty["--snappy-modal-backdrop"] = options.backdrop;
+      styleProperty["--snappy-modal-backdrop-color"] = options.backdrop;
     }
   }
   if (options.position) {
-    domOptions.styleProperty["--snappy-modal-content-position"] =
-      options.position;
+    styleProperty["--snappy-modal-content-position"] = options.position;
 
     if (options.position.startsWith("top-")) {
-      domOptions.styleProperty["--snappy-modal-align-self"] = "start";
+      styleProperty["--snappy-modal-align-self"] = "start";
     } else if (options.position.startsWith("bottom-")) {
-      domOptions.styleProperty["--snappy-modal-align-self"] = "end";
+      styleProperty["--snappy-modal-align-self"] = "end";
     }
   }
-  if (options?.allowOutsideClick) {
-    domOptions.onClick = e => {
-      e.stopPropagation();
-      e.preventDefault();
-      SnappyModal.close(undefined, modalId);
-    };
-  }
-  if (options.zIndex !== undefined) {
-    domOptions.styleProperty["--snappy-modal-z-index"] =
-      options.zIndex.toString();
-  }
+
   return {
-    className: domOptions.classList.join(" "),
-    style: domOptions.styleProperty,
-    onClick: domOptions.onClick,
+    className: classList.join(" "),
+    style: styleProperty,
   };
 }
+
+const ModalDialog = ({ modal }: { modal: ModalProgress }) => {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (dialog && !dialog.open) {
+      dialog.showModal();
+    }
+    return () => {
+      if (dialog?.open) {
+        dialog.close();
+      }
+    };
+  }, []);
+
+  const handleCancel = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    if (modal.options.allowOutsideClick) {
+      SnappyModal.close(undefined, modal.modalId);
+    }
+  };
+
+  const handleClick = (e: React.MouseEvent) => {
+    if (e.target === dialogRef.current && modal.options.allowOutsideClick) {
+      SnappyModal.close(undefined, modal.modalId);
+    }
+  };
+
+  const { className, style } = assignModalOptions(modal.options);
+
+  return (
+    <dialog
+      ref={dialogRef}
+      className={className}
+      style={style}
+      onCancel={handleCancel}
+      onClick={handleClick}
+    >
+      <div
+        className={`snappy-modal-content ${modal.options.className ? modal.options.className : ""}`}
+        style={modal.options.style}
+        onClick={e => e.stopPropagation()}
+      >
+        <modal.component
+          resolveFunc={modal.resolve}
+          rejectFunc={modal.throw}
+          layer={modal.options.layer}
+          modalId={modal.modalId}
+        />
+      </div>
+    </dialog>
+  );
+};
