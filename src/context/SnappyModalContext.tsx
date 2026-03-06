@@ -55,10 +55,10 @@ export function assignModalOptions(options: SnappyModalOptions) {
   const styleProperty: Record<string, string> = {};
 
   if (options.backdrop) {
-    classList.push("backdrop");
-    if (typeof options.backdrop === "string") {
-      styleProperty["--snappy-modal-backdrop-color"] = options.backdrop;
-    }
+    styleProperty["--snappy-modal-backdrop-color"] =
+      typeof options.backdrop === "string"
+        ? options.backdrop
+        : "rgba(0,0,0,.5)";
   }
   if (options.position) {
     styleProperty["--snappy-modal-content-position"] = options.position;
