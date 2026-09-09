@@ -106,6 +106,18 @@ resolveModal('success');
 rejectModal(new Error('Cancelled'));
 ```
 
+### SnappyModal.close(value?, layer?)
+
+Closes the first modal in the given layer and resolves its Promise with the
+provided value. The default layer is `0`.
+
+Use this API when the target layer is unambiguous. Inside modal content, prefer
+`useCurrentModal` so the current modal is always closed.
+
+```typescript
+SnappyModal.close('success', 1);
+```
+
 ### SnappyModal.throw(error?, layer?)
 
 Closes the modal and rejects the Promise with the provided error.

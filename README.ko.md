@@ -104,6 +104,18 @@ resolveModal('성공');
 rejectModal(new Error('취소됨'));
 ```
 
+### SnappyModal.close(value?, layer?)
+
+지정한 layer의 첫 번째 모달을 닫고 제공된 값으로 Promise를 resolve합니다.
+기본 layer는 `0`입니다.
+
+대상 layer가 명확한 경우에 이 API를 사용하세요. 모달 내용 컴포넌트에서는 항상 현재
+모달을 닫도록 `useCurrentModal` 사용을 권장합니다.
+
+```typescript
+SnappyModal.close('성공', 1);
+```
+
 ### SnappyModal.throw(error?, layer?)
 
 모달을 닫고 제공된 에러로 Promise를 거부합니다.
