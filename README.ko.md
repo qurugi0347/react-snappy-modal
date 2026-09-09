@@ -40,16 +40,22 @@ function App() {
 2. `SnappyModal.show()`를 사용하여 모달을 표시하세요
 
 ```jsx
-import SnappyModal from 'react-snappy-modal';
+import SnappyModal, { useCurrentModal } from 'react-snappy-modal';
+
+function HelloModal() {
+  const { resolveModal } = useCurrentModal();
+
+  return (
+    <div>
+      <h2>안녕하세요!</h2>
+      <button onClick={() => resolveModal('성공')}>닫기</button>
+    </div>
+  );
+}
 
 function YourComponent() {
   const handleClick = async () => {
-    const result = await SnappyModal.show(
-      <div>
-        <h2>안녕하세요!</h2>
-        <button onClick={() => SnappyModal.close('성공')}>닫기</button>
-      </div>
-    );
+    const result = await SnappyModal.show(<HelloModal />);
     console.log(result); // '성공'
   };
 
@@ -85,12 +91,29 @@ type SnappyModalPosition =
   | "bottom-right" // 우측 하단
 ```
 
-### SnappyModal.close(value?, layer?)
+### useCurrentModal()
 
-모달을 닫고 제공된 값으로 Promise를 해결합니다.
+모달 내용 컴포넌트 안에서 이 hook을 사용하여 현재 모달을 resolve하거나 reject하세요.
+여러 모달이 같은 layer를 사용하는 경우, layer 기반 `SnappyModal.close`는 다른 모달을
+종료할 수 있으므로 사용하지 마세요.
 
 ```typescript
-SnappyModal.close('성공', 0); // 레이어 0 모달을 '성공' 값과 함께 닫음
+const { resolveModal, rejectModal } = useCurrentModal();
+
+resolveModal('성공');
+rejectModal(new Error('취소됨'));
+```
+
+### SnappyModal.close(value?, layer?)
+
+지정한 layer의 첫 번째 모달을 닫고 제공된 값으로 Promise를 resolve합니다.
+기본 layer는 `0`입니다.
+
+대상 layer가 명확한 경우에 이 API를 사용하세요. 모달 내용 컴포넌트에서는 항상 현재
+모달을 닫도록 `useCurrentModal` 사용을 권장합니다.
+
+```typescript
+SnappyModal.close('성공', 1);
 ```
 
 ### SnappyModal.throw(error?, layer?)

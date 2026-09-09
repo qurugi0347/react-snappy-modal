@@ -42,16 +42,22 @@ function App() {
 2. Show a modal using `SnappyModal.show()`:
 
 ```jsx
-import SnappyModal from 'react-snappy-modal';
+import SnappyModal, { useCurrentModal } from 'react-snappy-modal';
+
+function HelloModal() {
+  const { resolveModal } = useCurrentModal();
+
+  return (
+    <div>
+      <h2>Hello World!</h2>
+      <button onClick={() => resolveModal('success')}>Close</button>
+    </div>
+  );
+}
 
 function YourComponent() {
   const handleClick = async () => {
-    const result = await SnappyModal.show(
-      <div>
-        <h2>Hello World!</h2>
-        <button onClick={() => SnappyModal.close('success')}>Close</button>
-      </div>
-    );
+    const result = await SnappyModal.show(<HelloModal />);
     console.log(result); // 'success'
   };
 
@@ -87,12 +93,29 @@ type SnappyModalPosition =
   | "bottom-right";
 ```
 
-### SnappyModal.close(value?, layer?)
+### useCurrentModal()
 
-Closes the modal and resolves the Promise with the provided value.
+Use this hook inside modal content to resolve or reject the current modal.
+Avoid `SnappyModal.close` here: layer-based closing can target a different
+modal when multiple modals use the same layer.
 
 ```typescript
-SnappyModal.close('success', 0); // Closes layer 0 modal with 'success' value
+const { resolveModal, rejectModal } = useCurrentModal();
+
+resolveModal('success');
+rejectModal(new Error('Cancelled'));
+```
+
+### SnappyModal.close(value?, layer?)
+
+Closes the first modal in the given layer and resolves its Promise with the
+provided value. The default layer is `0`.
+
+Use this API when the target layer is unambiguous. Inside modal content, prefer
+`useCurrentModal` so the current modal is always closed.
+
+```typescript
+SnappyModal.close('success', 1);
 ```
 
 ### SnappyModal.throw(error?, layer?)

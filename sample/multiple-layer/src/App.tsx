@@ -1,5 +1,5 @@
 import "./App.css";
-import SnappyModal from "../../../src";
+import SnappyModal, { useCurrentModal } from "../../../src";
 
 function App() {
   const handleShowModal = () => {
@@ -19,6 +19,8 @@ function App() {
 export default App;
 
 const ModalComponent = () => {
+  const { resolveModal } = useCurrentModal();
+
   return (
     <div style={{ background: "white" }}>
       <h1>First Layer Modal</h1>
@@ -29,21 +31,18 @@ const ModalComponent = () => {
       >
         Open Second Layer Modal
       </button>
-      <button onClick={() => SnappyModal.close()}>close</button>
+      <button onClick={() => resolveModal()}>close</button>
     </div>
   );
 };
 
 const SecondLayerModalComponent = () => {
+  const { resolveModal } = useCurrentModal();
+
   return (
     <div style={{ background: "white" }}>
       <h1>Second Layer Modal</h1>
-      <button onClick={() => SnappyModal.close(undefined, 0)}>
-        closeLayer0
-      </button>
-      <button onClick={() => SnappyModal.close(undefined, 1)}>
-        closeLayer1
-      </button>
+      <button onClick={() => resolveModal()}>close</button>
     </div>
   );
 };
